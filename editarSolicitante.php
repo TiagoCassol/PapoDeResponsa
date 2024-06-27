@@ -10,7 +10,7 @@ require_once "functions.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel admin - Editar Multiplicador</title>
+    <title>Painel admin - Editar Solicitante</title>
     <link rel="stylesheet" href="style/adm.css">
 </head>
 <body>
@@ -23,7 +23,7 @@ require_once "functions.php";
             </nav>
             <nav class="nav-center">
             <h1>
-                    <?php echo $_SESSION['nome_multiplicador']; ?>: Editando Multiplicador
+                    <?php echo $_SESSION['nome_multiplicador']; ?>: Editando Solicitante
                 </h1>
             </nav>
             
@@ -35,38 +35,38 @@ require_once "functions.php";
         <?php include "layout/menuMultiplicador.php"; ?>
         <?php
         // Busca usuários no banco de dados
-        $tabela = "multiplicador";
+        $tabela = "solicitante";
         $usuarios = buscar($connect, $tabela, $where = 1, $order = "");
         ?>
-        <?php if (isset($_GET['id_multiplicador'])) {
+        <?php if (isset($_GET['id_solicitante'])) {
             // Se um ID de usuário é fornecido, busca o usuário específico
-            $id = $_GET['id_multiplicador'];
-            $usuario = buscaUnica($connect, $tabela, $id);
-            updateMultiplicador($connect);
+            $id = $_GET['id_solicitante'];
+            $usuario = buscaUnicaSolicitante($connect, $tabela, $id);
+            updateSolicitante($connect);
             ?>
             <!-- Título para indicar que está editando um usuário específico -->
-            <h2>Editando o usuário <?php echo $_GET['nome_multiplicador']; ?> </h2>
+            <h2>Editando o Solicitante <?php echo $_GET['Nome_Instituicao']; ?> </h2>
         <?php } ?>
 
         <!-- Formulário para editar um usuário existente ou adicionar um novo usuário -->
         <form id="signup-form" action="" method="post">
          
-                    <input value="<?php echo $usuario['id_multiplicador']; ?>" type="hidden" name="id_multiplicador">
+                    <input value="<?php echo $usuario['id_solicitante']; ?>" type="hidden" name="id_solicitante">
                 <div class="form-group">
-                <label for="name">Nome:</label>
-                    <input value="<?php echo $usuario['nome_multiplicador']; ?>" id="name" type="text" name="nome_multiplicador" placeholder="nome">
+                <label for="name">Nome_Instituicao:</label>
+                    <input value="<?php echo $usuario['Nome_Instituicao']; ?>" id="name" type="text" name="Nome_Instituicao" placeholder="nome">
                 </div>
                 <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input value="<?php echo $usuario['email_multiplicador']; ?>" type="email" name="email_multiplicador" placeholder="email">
+                    <label for="email">E-mail solicitante:</label>
+                    <input value="<?php echo $usuario['email_solicitante']; ?>" type="email" name="email_solicitante" placeholder="email">
                 </div>
                 <div class="form-group">
-                    <label for="matricula">Matrícula:</label>
-                    <input value="<?php echo $usuario['matricula']; ?>" type="text" name="matricula" placeholder="matricula">
+                    <label for="responsavel">responsavel:</label>
+                    <input value="<?php echo $usuario['responsavel']; ?>" type="text" name="responsavel" placeholder="matricula">
                 </div>
                 <div class="form-group">
-                    <label for="cpf_multiplicador">CPF:</label>
-                    <input value="<?php echo $usuario['cpf_multiplicador']; ?>" type="text" name="cpf_multiplicador" placeholder="CPF">
+                    <label for="cpf_multiplicador">CNPJ:</label>
+                    <input value="<?php echo $usuario['CNPJ']; ?>" type="text" name="CNPJ" placeholder="CNPJ">
                 </div>
                 <div class="form-group">
                     <label for="endereco_multiplicador">Endereco:</label>

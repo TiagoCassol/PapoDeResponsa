@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.782); /* Fundo transparente escuro */
     color: #fff;
     display: flex;
     justify-content: center;
@@ -113,7 +113,7 @@ a:hover {
     margin-right: 100px; /* Espaçamento acima do link */
     margin-left: 100px; /* Espaçamento acima do link */
     width: 300px; /* Largura da caixa de login */
-    background-color: #333333;
+    background-color: #262626;
 }
 
 .caixa img {
@@ -124,3 +124,4 @@ a:hover {
 input:focus {
     outline: none;
 }
+

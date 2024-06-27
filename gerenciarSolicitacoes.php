@@ -11,14 +11,26 @@ require_once "functions.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel admin - multiplicadores</title>
+    <link rel="stylesheet" href="style/adm.css">
 </head>
 <body>
     <!-- Se $seguranca é TRUE, exibe o conteúdo protegido -->
     <?php if ($seguranca) { ?>
-        <h1>
-            <?php echo $_SESSION['nome_multiplicador']; ?> : Painel de Solicitações
-        </h1>
-
+        <header>
+            <nav class="nav-left">
+            
+            <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
+            </nav>
+            <nav class="nav-center">
+            <h1>Bem vindo,
+                    <?php echo $_SESSION['nome_multiplicador']; ?> ao painel do site!
+                </h1>
+            </nav>
+            
+            <nav class="nav-right">
+                <img src="style/papoLogo2.png" alt="Logo Papo de Responsa" class="logo">
+            </nav>
+        </header>
         <?php include "layout/menuMultiplicador.php"; ?>
 
         <?php

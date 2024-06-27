@@ -13,10 +13,11 @@
 <body>
     <header>
         <nav class="nav-left">
-            <img src="style/papoLogo.jfif" alt="Logo Papo de Responsa" class="logo">
+        
+        <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
         </nav>
         <nav class="nav-center">
-            <h1>Papo de Responsa</h1>
+            
             <ul>
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="#oque-fazemos">O que fazemos</a></li>
@@ -25,8 +26,10 @@
                 <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
+        
         <nav class="nav-right">
-            <a href="login.php">Login</a>
+            <img src="style/papoLogo2.png" alt="Logo Papo de Responsa" class="logo">
+            <a href="login.php" class="login">Login</a>
         </nav>
     </header>
     <main>
@@ -63,10 +66,10 @@
     </footer>
 
     <!-- Ícone -->
-    <div class="icon-container">
+    <!-- <div class="icon-container">
         <img src="/imgs/icone.png" alt="Ícone" class="icon">
-    </div>
+    </div> -->
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
 </body>
 </html>

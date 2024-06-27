@@ -14,18 +14,25 @@ require_once "functions.php";
     <link rel="stylesheet" href="style/adm.css">
 </head>
 <body>
-    
     <!-- Se $seguranca é TRUE, exibe o conteúdo protegido -->
     <?php if ($seguranca) { ?>
         <header>
-
-        <h1>Bem vindo,
-            <?php echo $_SESSION['nome_multiplicador']; ?> ao painel do site!
-        </h1>
-        <nav class="nav-left">
-            <img src="style/papoLogo.jfif" alt="Logo Papo de Responsa" class="logo">
-        </nav>
+            <nav class="nav-left">
+            
+            <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
+            </nav>
+            <nav class="nav-center">
+            <h1>Bem vindo,
+                    <?php echo $_SESSION['nome_multiplicador']; ?> ao painel do site!
+                </h1>
+            </nav>
+            
+            <nav class="nav-right">
+                <img src="style/papoLogo2.png" alt="Logo Papo de Responsa" class="logo">
+            </nav>
         </header>
+
+
         <?php include "layout/menuMultiplicador.php"; ?>
 
         <?php

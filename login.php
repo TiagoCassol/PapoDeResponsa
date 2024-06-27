@@ -1,6 +1,9 @@
 <?php require_once "functions.php"; 
 if(isset($_POST['acessar'])){
     login($connect);
+
+}
+if(isset($_POST['acessar_solicitante'])){
     loginSolicitante($connect);
 }
 ?>
@@ -16,9 +19,10 @@ if(isset($_POST['acessar'])){
     <link rel="stylesheet" href="style/login.css">
 </head>
 <body id = "principal">
+    <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
     <div class="logo">
         <a href="index.php">
-            <img src="style/papoLogo.jfif" alt="imagem que representa o logo do PPR">
+            <img src="style/papoLogo2.png" alt="imagem que representa o logo do PPR">
         </a>
     </div>
     <div id="login">
@@ -40,6 +44,7 @@ if(isset($_POST['acessar'])){
                     <input type="submit" name="acessar" value="Acessar">
                 </div>
                 <a href="CadastroMultiplicador.php">Cadastrar Multiplicador</a>
+                <a href="esqueceuSenha.php">Esqueceu a Senha</a>
                 </fieldset>
             </form>
            
@@ -60,6 +65,7 @@ if(isset($_POST['acessar'])){
                     <input type="submit" name="acessar_solicitante" value="Acessar">
                 </div>
                 <a href="CadastroSolicitante.php">Cadastrar Solicitante</a>
+                <a href="esqueceuSenha.php">Esqueceu a Senha</a>
                 </fieldset>
             </form>
  

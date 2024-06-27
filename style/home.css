@@ -42,8 +42,10 @@ header {
 
 .logo {
     width: 100px;
+    margin-right: 30px; 
     height: auto;
 }
+
 
 header h1 {
     margin: 0;
@@ -63,6 +65,10 @@ header h1 {
     padding: 10px 20px;
     border-radius: 5px;
     transition: 220ms ease-in-out;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
 }
 
 .nav-right a:hover {

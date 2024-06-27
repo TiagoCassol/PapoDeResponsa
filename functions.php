@@ -84,7 +84,7 @@ function loginSolicitante($connect)
                 session_start();
                 $_SESSION['email_solicitante'] = $usuario['email_solicitante'];
                 $_SESSION['responsavel'] = $usuario['responsavel'];
-                $_SESSION['id'] = $usuario['id'];
+                $_SESSION['id_solicitante'] = $usuario['id_solicitante'];
                 $_SESSION['ativa'] = true;
                 header("location: solicitante.php"); // Redireciona para a página de administração do solicitante
                 exit;
@@ -331,9 +331,9 @@ function deletar($connect, $usuario, $id_multiplicador)
 
 // Buscar solicitações disponíveis
 function buscarSolicitacoesDisponiveis($connect) {
-    $query = "SELECT s.*, sl.endereco_solicitante FROM solicitacao s
+    $query = "SELECT s.*, sl.endereco_solicitante, sl.email_solicitante, sl.responsavel FROM solicitacao s
               INNER JOIN solicitante sl ON s.id_solicitante = sl.id_solicitante
-              WHERE s.id_multiplicador IS NULL AND s.status_solicitacao = 'A'";
+              WHERE s.id_multiplicador IS NULL ";
     $result = mysqli_query($connect, $query);
     $solicitacoes = mysqli_fetch_all($result, MYSQLI_ASSOC);
     return $solicitacoes;
@@ -341,8 +341,8 @@ function buscarSolicitacoesDisponiveis($connect) {
 
 // Buscar solicitações aceitas
 function buscarSolicitacoesAceitas($connect, $id_multiplicador) {
-    $query = "SELECT s.*, sl.endereco_solicitante FROM solicitacao s
-              INNER JOIN solicitante sl ON s.id_solicitante = sl.id_solicitante
+    $query = "SELECT s.*, so.endereco_solicitante, so.responsavel, so.email_solicitante FROM solicitacao s
+              INNER JOIN solicitante so ON s.id_solicitante = so.id_solicitante
               WHERE s.id_multiplicador = $id_multiplicador AND s.status_solicitacao = 'A'";
     $result = mysqli_query($connect, $query);
     $solicitacoes = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -351,7 +351,7 @@ function buscarSolicitacoesAceitas($connect, $id_multiplicador) {
 
 // Aceitar uma solicitação
 function aceitarSolicitacao($connect, $id_solicitacao, $id_multiplicador) {
-    $query = "UPDATE solicitacao SET id_multiplicador = $id_multiplicador WHERE id_solicitacao = $id_solicitacao";
+    $query = "UPDATE solicitacao SET id_multiplicador = $id_multiplicador, status_solicitacao = 'A' WHERE id_solicitacao = $id_solicitacao";
     $result = mysqli_query($connect, $query);
     if ($result) {
         header("Location: indexMultiplicador.php");
@@ -363,13 +363,23 @@ function aceitarSolicitacao($connect, $id_solicitacao, $id_multiplicador) {
 
 // Desistir de uma solicitação
 function desistirSolicitacao($connect, $id_solicitacao, $id_multiplicador) {
-    $query = "UPDATE solicitacao SET id_multiplicador = NULL WHERE id_solicitacao = $id_solicitacao AND id_multiplicador = $id_multiplicador";
+    $query = "UPDATE solicitacao SET id_multiplicador = NULL, status_solicitacao = 'E' WHERE id_solicitacao = $id_solicitacao";
     $result = mysqli_query($connect, $query);
     if ($result) {
         header("Location: indexMultiplicador.php");
         exit;
     } else {
         echo "Erro ao desistir da solicitação.";
+    }
+}
+function concluirSolicitacao($connect, $id_solicitacao) {
+    $query = "UPDATE solicitacao SET status_solicitacao = 'C' WHERE id_solicitacao = $id_solicitacao";
+    $result = mysqli_query($connect, $query);
+    if ($result) {
+        header("Location: indexMultiplicador.php");
+        exit;
+    } else {
+        echo "Erro ao concluir a solicitação: ";
     }
 }
 
@@ -423,3 +433,209 @@ function buscarSolicitacao($connect, $tabela, $where = 1, $order = "")
 	$results = mysqli_fetch_all($execute, MYSQLI_ASSOC);
 	return $results;
 }
+
+// Função para buscar um usuário específico (solicitante)
+function buscaUnicaSolicitante($connect, $tabela, $id) {
+    // Monta a consulta SQL
+    $query = "SELECT * FROM $tabela WHERE id_solicitante = " . (int)$id;
+    // Executa a consulta
+    $execute = mysqli_query($connect, $query);
+    if ($execute === false) {
+        die("Erro na consulta: " . mysqli_error($connect));
+    }
+
+
+    // Verifica se há resultados
+    if (mysqli_num_rows($execute) > 0) {
+        return mysqli_fetch_assoc($execute);
+    } else {
+        return null;
+    }
+}
+
+function buscarSolicitante($connect, $tabela, $where = 1, $order = "")
+{
+    if (!empty($order)) {
+        $order = "ORDER BY $order";
+    }
+    $query = "SELECT * FROM solicitante where $where $order";
+    $execute = mysqli_query($connect, $query);
+    $results = mysqli_fetch_all($execute, MYSQLI_ASSOC);
+    return $results;
+}
+
+function inserirSolicitante($connect)
+{
+	if (isset($_POST['cadastrar']) and !empty($_POST['email_solicitante']) and !empty($_POST['senha_solicitante'])) {
+		$erros = array();
+		$email = filter_input(INPUT_POST, 'email_solicitante', FILTER_VALIDATE_EMAIL);
+		$responsavel = mysqli_real_escape_string($connect, $_POST['responsavel']);
+		$nome_instituicao = mysqli_real_escape_string($connect, $_POST['Nome_Instituicao']);
+		$cnpj = mysqli_real_escape_string($connect, $_POST['cnpj']);
+		$tipo_escola = mysqli_real_escape_string($connect, $_POST['tipo_escola']);
+		$esfera = mysqli_real_escape_string($connect, $_POST['esfera']);
+		$endereco = mysqli_real_escape_string($connect, $_POST['endereco_solicitante']);
+		$senha = ($_POST['senha_solicitante']);
+		
+
+		if ($_POST['senha_solicitante'] != $_POST['repete_senha']) {
+			$erros[] = "Senhas não conferem";
+		}
+		$queryEmail = "SELECT email_solicitante FROM solicitante WHERE email_solicitante = '$email' ";
+		$buscaEmail = mysqli_query($connect, $queryEmail);
+		$verifica = mysqli_num_rows($buscaEmail); # traz número de linhas
+		if (!empty($verifica)) {
+			$erros[] = "E-mail já cadastrado!";
+		}
+
+		$queryCnpj = "SELECT cnpj FROM solicitante WHERE cnpj = '$cnpj' ";
+		$buscaCnpj = mysqli_query($connect, $queryCnpj);
+		$verificaCnpj = mysqli_num_rows($buscaCnpj);
+		if ($verificaCnpj > 0) {
+			$erros[] = "CNPJ já cadastrado!";
+		}
+
+    if (strlen($cnpj) != 14) {
+        $erros[] = "Tamanho do CNPJ inválido";
+    }
+
+    if (strlen($senha) < 8) {
+        $erros[] = "Tamanho da senha deve ser de no mínimo 8 caracteres";
+    }
+			
+		
+		if (empty($erros)) {
+			$query = "INSERT INTO solicitante (email_solicitante, senha_solicitante, responsavel,Nome_Instituicao, cnpj, tipo_escola, esfera, endereco_solicitante) 
+			values ('$email','$senha','$responsavel','$nome_instituicao','$cnpj','$tipo_escola','$esfera','$endereco')";
+
+			if (mysqli_query($connect, $query)) {
+				// Verifica o nível de hierarquia do usuário logado
+				if ($_SESSION['nivel_hierarquia'] == 'administrador') {
+					// Administrador
+					echo "<script>
+							alert('Novo solicitante cadastrado com sucesso.');
+							window.location.href = 'solicitante.php'; // Redireciona para o painel do administrador
+						</script>";
+				} else {
+					// Outros multiplicadores
+					echo "<script>
+							alert('Seu pedido foi enviado para revisão.');
+							window.location.href = 'index.php'; // Redireciona para o index
+						</script>";
+				}
+			} else {
+				echo "Erro ao cadastrar usuário: " . mysqli_error($connect);
+			}
+
+		} else {
+			foreach ($erros as $erro) {
+				echo "<p>$erro</p>";
+			}
+		}
+	}
+}
+
+function updateSolicitante($connect)
+{
+	if (isset($_POST['atualizar']) and !empty($_POST['email_solicitante'])) {
+		$erros = array();
+		$id_solicitante = filter_input(INPUT_POST, "id_solicitante", FILTER_VALIDATE_INT);
+		$email_solicitante = filter_input(INPUT_POST, 'email_solicitante', FILTER_VALIDATE_EMAIL);
+		$responsavel = mysqli_real_escape_string($connect, $_POST['responsavel']);
+		$nome_instituicao = mysqli_real_escape_string($connect, $_POST['nome_instituicao']);
+		$cnpj= mysqli_real_escape_string($connect, $_POST['cnpj']);
+		$tipo_escola= mysqli_real_escape_string($connect, $_POST['tipo_escola']);
+		$esfera = mysqli_real_escape_string($connect, $_POST['esfera']);
+		$endereco= mysqli_real_escape_string($connect, $_POST['endereco_solicitante']);
+		$nivel_hierarquia = mysqli_real_escape_string($connect, $_POST['nivel_hierarquia']);
+		$status = mysqli_real_escape_string($connect, $_POST['status_solicitante']);
+		$senha = "";
+
+		if (strlen($responsavel) < 3) {
+			$erros[] = "Nome muito curto";
+		}
+
+		if (empty($email_solicitante)) {
+			$erros[] = "Preencha seu e-mail corretamente";
+		}
+
+		if (!empty($_POST['senha_solicitante'])) {
+			if ($_POST['senha_solicitante'] == $_POST['repetesenha']) {
+				$senha = ($_POST['senha_solicitante']);
+			} else {
+				$erros[] = "Senhas não conferem";
+			}
+		}
+
+		// Verificar se não mudou o email
+		$queryEmailAtual = "SELECT email_solicitante FROM solicitante where id_solicitante = $id_solicitante ";
+		$buscaEmailAtual = mysqli_query($connect, $queryEmailAtual);
+		$retornoEmail = mysqli_fetch_assoc($buscaEmailAtual);
+		$queryEmail = "SELECT email_solicitante FROM solicitante WHERE email_solicitante = '$email_solicitante' AND  email_solicitante <> '" . $retornoEmail['email_solicitante'] . "'";
+		$buscaEmail = mysqli_query($connect, $queryEmail);
+		$verifica = mysqli_num_rows($buscaEmail); # traz número de linhas
+		if (!empty($verifica)) {
+			$erros[] = "E-mail já cadastrado!";
+		}
+
+		if (empty($erros)) {
+			if (!empty($senha)) {
+				$query = "UPDATE solicitante SET 
+                            responsavel='$responsavel', 
+                            email_solicitante='$email_solicitante',
+							nome_instituicao='$nome_instituicao', 
+							cnpj='$cnpj', 
+							tipo_escola='$tipo_escola',
+							esfera='$esfera',
+               				endereco_solicitante='$endereco',
+                            senha_solicitante='$senha', 
+                            nivel_hierarquia='$nivel_hierarquia', 
+                            status_solicitante='$status' 
+                          WHERE id_solicitante='$id_solicitante'";
+			} else {
+				$query =  "UPDATE solicitante SET 
+                            responsavel='$responsavel', 
+                            email_solicitante='$email_solicitante', 
+							nome_instituicao='$nome_instituicao',
+							cnpj='$cnpj', 
+							tipo_escola= '$tipo_escola',
+							esfera='$esfera',
+               				endereco_solicitante='$endereco',
+                            senha_solicitante='$senha', 
+                            nivel_hierarquia='$nivel_hierarquia', 
+                            status_solicitante='$status' 
+                          WHERE id_solicitante='$id_solicitante'";
+			}
+
+			$executar = mysqli_query($connect, $query);
+			if ($executar) {
+			    "Usuário atualizado com sucesso!";
+                header("Location: solicitante.php");
+                exit(); // Certifique-se de que o script pare de ser executado após o redirecionamento
+			} else {
+				echo "Erro ao atualizar usuário: " . mysqli_error($connect);
+			}
+		} else {
+			foreach ($erros as $erro) {
+				echo "<p>$erro</p>";
+			}
+		}
+	}
+}
+
+function deletarSolicitante($connect, $usuario, $id_solicitante)
+{
+	if (!empty($id_solicitante)) {
+		$query = "DELETE FROM $usuario WHERE id_solicitante =" . (int) $id_solicitante;
+		$execute = mysqli_query($connect, $query);
+		if ($execute) {
+			echo "<script>
+							alert('Solicitante deletado com sucesso.');
+							window.location.href = 'gerenciarSolicitante.php';
+				</script>;";
+		} else {
+			echo "Erro ao deletar!";
+		}
+	}
+}
+

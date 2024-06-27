@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+require_once "functions.php";
+
+// Chama a função de inserção de multiplicador
+inserirSolicitante($connect);
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,30 +22,34 @@
         <h1>Papo de Responsa</h1>
     </header>
     <main>
-        <form id="signup-form">
+        <form id="signup-form" action="" method="post">
             <h2>Cadastro do Solicitante</h2>
             <div class="form-group">
                 <label for="institution-name">Nome da Instituição:</label>
-                <input type="text" id="institution-name" name="institution-name" required>
+                <input type="text" id="institution-name" name="Nome_Instituicao" required>
+            </div>
+            <div class="form-group">
+                <label for="institution-email">Email da Instituição:</label>
+                <input type="text" id="institution-email" name="email_solicitante" required>
             </div>
             <div class="form-group">
                 <label for="institution-name">Responsavel:</label>
-                <input type="text" id="institution-name" name="institution-name" required>
+                <input type="text" id="institution-name" name="responsavel" required>
             </div>
             <div class="form-group">
                 <label for="institution-cnpj">CNPJ da Instituição:</label>
-                <input type="text" id="institution-cnpj" name="institution-cnpj" required>
+                <input type="text" id="institution-cnpj" name="cnpj" required>
             </div>
             <div class="form-group">
                 <label for="institution-type">A instituição é:</label>
-                <select id="institution-type" name="institution-type" required>
+                <select id="institution-type" name="tipo_escola" required>
                     <option value="public">Pública</option>
                     <option value="private">Privada</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="institution-sphere">Esfera:</label>
-                <select id="institution-sphere" name="institution-sphere" required>
+                <select id="institution-sphere" name="esfera" required>
                     <option value="federal">Federal</option>
                     <option value="state">Estadual</option>
                     <option value="municipal">Municipal</option>
@@ -43,19 +57,19 @@
             </div>
             <div class="form-group">
                 <label for="address">Endereço:</label>
-                <input type="text" id="address" name="address" required>
+                <input type="text" id="address" name="endereco_solicitante" required>
             </div>
             <div class="form-group">
             <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="senha_solicitante" required>
             </div>
             <div class="form-group">
                 <label for="confirm-password">Confirmar Senha:</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
+                <input type="password" id="confirm-password" name="repete_senha" required>
             </div>
 
             
-            <button type="submit">Cadastrar</button>
+            <button type="submit" name="cadastrar" value="Cadastrar">Cadastrar</button>
         </form>
         <a href="logout.php">Sair</a>
     </main>
