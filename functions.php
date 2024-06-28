@@ -340,75 +340,75 @@ function deletar($connect, $usuario, $id_multiplicador)
 }
 
 
-// Buscar solicitações disponíveis
-function buscarSolicitacoesDisponiveis($connect) {
-    $query = "SELECT s.*, sl.endereco_solicitante, sl.email_solicitante, sl.responsavel FROM solicitacao s
-              INNER JOIN solicitante sl ON s.id_solicitante = sl.id_solicitante
-              WHERE s.id_multiplicador IS NULL ";
-    $result = mysqli_query($connect, $query);
-    $solicitacoes = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    return $solicitacoes;
-}
+// // Buscar solicitações disponíveis
+// function buscarSolicitacoesDisponiveis($connect) {
+//     $query = "SELECT s.*, sl.endereco_solicitante, sl.email_solicitante, sl.responsavel FROM solicitacao s
+//               INNER JOIN solicitante sl ON s.id_solicitante = sl.id_solicitante
+//               WHERE s.id_multiplicador IS NULL ";
+//     $result = mysqli_query($connect, $query);
+//     $solicitacoes = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//     return $solicitacoes;
+// }
 
-// Buscar solicitações aceitas
-function buscarSolicitacoesAceitas($connect, $id_multiplicador) {
-    $query = "SELECT s.*, so.endereco_solicitante, so.responsavel, so.email_solicitante FROM solicitacao s
-              INNER JOIN solicitante so ON s.id_solicitante = so.id_solicitante
-              WHERE s.id_multiplicador = $id_multiplicador AND s.status_solicitacao = 'A'";
-    $result = mysqli_query($connect, $query);
-    $solicitacoes = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    return $solicitacoes;
-}
+// // Buscar solicitações aceitas
+// function buscarSolicitacoesAceitas($connect, $id_multiplicador) {
+//     $query = "SELECT s.*, so.endereco_solicitante, so.responsavel, so.email_solicitante FROM solicitacao s
+//               INNER JOIN solicitante so ON s.id_solicitante = so.id_solicitante
+//               WHERE s.id_multiplicador = $id_multiplicador AND s.status_solicitacao = 'A'";
+//     $result = mysqli_query($connect, $query);
+//     $solicitacoes = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//     return $solicitacoes;
+// }
 
-// Aceitar uma solicitação
-function aceitarSolicitacao($connect, $id_solicitacao, $id_multiplicador) {
-    $query = "UPDATE solicitacao SET id_multiplicador = $id_multiplicador, status_solicitacao = 'A' WHERE id_solicitacao = $id_solicitacao";
-    $result = mysqli_query($connect, $query);
-    if ($result) {
-        header("Location: indexMultiplicador.php");
-        exit;
-    } else {
-        echo "Erro ao aceitar solicitação.";
-    }
-}
+// // Aceitar uma solicitação
+// function aceitarSolicitacao($connect, $id_solicitacao, $id_multiplicador) {
+//     $query = "UPDATE solicitacao SET id_multiplicador = $id_multiplicador, status_solicitacao = 'A' WHERE id_solicitacao = $id_solicitacao";
+//     $result = mysqli_query($connect, $query);
+//     if ($result) {
+//         header("Location: indexMultiplicador.php");
+//         exit;
+//     } else {
+//         echo "Erro ao aceitar solicitação.";
+//     }
+// }
 
-// Desistir de uma solicitação
-function desistirSolicitacao($connect, $id_solicitacao, $id_multiplicador) {
-    $query = "UPDATE solicitacao SET id_multiplicador = NULL, status_solicitacao = 'E' WHERE id_solicitacao = $id_solicitacao";
-    $result = mysqli_query($connect, $query);
-    if ($result) {
-        header("Location: indexMultiplicador.php");
-        exit;
-    } else {
-        echo "Erro ao desistir da solicitação.";
-    }
-}
-function concluirSolicitacao($connect, $id_solicitacao) {
-    $query = "UPDATE solicitacao SET status_solicitacao = 'C' WHERE id_solicitacao = $id_solicitacao";
-    $result = mysqli_query($connect, $query);
-    if ($result) {
-        header("Location: indexMultiplicador.php");
-        exit;
-    } else {
-        echo "Erro ao concluir a solicitação: ";
-    }
-}
+// // Desistir de uma solicitação
+// function desistirSolicitacao($connect, $id_solicitacao, $id_multiplicador) {
+//     $query = "UPDATE solicitacao SET id_multiplicador = NULL, status_solicitacao = 'E' WHERE id_solicitacao = $id_solicitacao";
+//     $result = mysqli_query($connect, $query);
+//     if ($result) {
+//         header("Location: indexMultiplicador.php");
+//         exit;
+//     } else {
+//         echo "Erro ao desistir da solicitação.";
+//     }
+// }
+// function concluirSolicitacao($connect, $id_solicitacao) {
+//     $query = "UPDATE solicitacao SET status_solicitacao = 'C' WHERE id_solicitacao = $id_solicitacao";
+//     $result = mysqli_query($connect, $query);
+//     if ($result) {
+//         header("Location: indexMultiplicador.php");
+//         exit;
+//     } else {
+//         echo "Erro ao concluir a solicitação: ";
+//     }
+// }
 
-function buscarEnderecoMultiplicador($connect, $id_multiplicador) {
-    $query = "SELECT endereco_multiplicador FROM multiplicador
-              WHERE id_multiplicador = $id_multiplicador";
-    $result = mysqli_query($connect, $query);
+// function buscarEnderecoMultiplicador($connect, $id_multiplicador) {
+//     $query = "SELECT endereco_multiplicador FROM multiplicador
+//               WHERE id_multiplicador = $id_multiplicador";
+//     $result = mysqli_query($connect, $query);
     
-    // Verifique se a consulta retornou algum resultado
-    if ($result && mysqli_num_rows($result) > 0) {
-        // Obtenha a primeira linha do resultado
-        $row = mysqli_fetch_assoc($result);
-        return $row['endereco_multiplicador'];
-    } else {
-        // Retorne null ou um valor padrão se nenhum resultado for encontrado
-        return null;
-    }
-}
+//     // Verifique se a consulta retornou algum resultado
+//     if ($result && mysqli_num_rows($result) > 0) {
+//         // Obtenha a primeira linha do resultado
+//         $row = mysqli_fetch_assoc($result);
+//         return $row['endereco_multiplicador'];
+//     } else {
+//         // Retorne null ou um valor padrão se nenhum resultado for encontrado
+//         return null;
+//     }
+// }
 
 
 function deletarSolicitacao($connect, $usuario, $id_solicitacao)

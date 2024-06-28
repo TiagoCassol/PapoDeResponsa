@@ -136,3 +136,42 @@ header {
     justify-content: center;
     flex: 2;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+ul li a {
+    text-decoration: none;
+    color: #007bff;
+    padding: 8px 12px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ul li a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+.solicitacoes-disponiveis li {
+    background-color: #e6f7ff;
+}
+
+.solicitacoes-aceitas li {
+    background-color: #e6ffe6;
+}

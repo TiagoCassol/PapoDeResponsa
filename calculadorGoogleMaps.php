@@ -1,6 +1,5 @@
 <?php function getDistance($addressFrom, $addressTo, $unit = ''){
-    // Google API key
-    $apiKey = '';
+    $apiKey = 'AIzaSyCm6ymiUpqDNNI8clPp2Qi2F-HSWsSLyVk';
     
     // Change address format
     $formattedAddrFrom    = str_replace(' ', '+', $addressFrom);
@@ -42,4 +41,22 @@
     }else{
         return round($miles, 2).' miles';
     }
+} ?>
+
+<?php function getCoordenada($addressFrom){
+$apiKey = 'AIzaSyCm6ymiUpqDNNI8clPp2Qi2F-HSWsSLyVk';
+    
+    $formattedAddrFrom    = str_replace(' ', '+', $addressFrom);
+    
+    $geocodeFrom = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$formattedAddrFrom.'&sensor=false&key='.$apiKey);
+    $outputFrom = json_decode($geocodeFrom);
+    if(!empty($outputFrom->error_message)){
+        return $outputFrom->error_message;
+    }
+    
+    $latitude    = $outputFrom->results[0]->geometry->location->lat;
+    $longitude    = $outputFrom->results[0]->geometry->location->lng;
+
+    return array ($latitude, $longitude);
+
 } ?>
