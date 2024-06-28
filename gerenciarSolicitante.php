@@ -36,7 +36,7 @@ require_once "functions.php";
         <?php
          // Define a tabela e a ordem para a consulta
             $tabela = "solicitante";
-            $order = "responsavel";
+            $order = "";
             // Busca os usuários no banco de dados
             $usuarios = buscarSolicitante($connect, $tabela, $where = 1, $order);
             // Insere um novo solicitante
@@ -47,7 +47,7 @@ require_once "functions.php";
                 <?php echo $_GET['responsavel'];?></h2>
                 <form action="" method="post">
                     <input type="hidden" name="id_solicitante" value="<?php echo $_GET['id_solicitante']?>">
-                    <input type="submit" name="deletar" value="Deletar">
+                    <button type="submit" name="deletar" value="Deletar">Deletar</button>
                 </form>
             <?php } ?>
             <?php 
@@ -80,12 +80,24 @@ require_once "functions.php";
                             <td><?php echo $usuario['id_solicitante']; ?></td>
                             <td data-tooltip="<?php echo $usuario['responsavel']; ?>"><?php echo $usuario['responsavel']; ?></td>
                             <td><?php echo $usuario['email_solicitante']; ?></td>
-                            <td><?php echo $usuario['Nome_Instituicao']; ?></td>
-                            <td><?php echo $usuario['cnpj']; ?></td>
+                            <td data-tooltip="<?php echo $usuario['Nome_Instituicao']; ?>"><?php echo $usuario['Nome_Instituicao']; ?></td>
+                            <td><?php echo formatarCNPJ($usuario['cnpj']); ?></td>
                             <td><?php echo $usuario['tipo_escola']; ?></td>
                             <td><?php echo $usuario['esfera']; ?></td>
-                            <td><?php echo $usuario['endereco_solicitante']; ?></td>
-                            <td><?php echo $usuario['status_solicitante']; ?></td>
+                            <td data-tooltip="<?php echo $usuario['endereco_solicitante']; ?>"><?php echo $usuario['endereco_solicitante']; ?></td>
+                            <td>
+                                <?php 
+                                if ($usuario['status_solicitante'] == 'A') {
+                                    echo 'Ativo';
+                                } elseif ($usuario['status_solicitante'] == 'I') {
+                                    echo 'Inativo';
+                                } elseif ($usuario['status_solicitante'] == 'E') {
+                                    echo 'Em aberto';
+                                } else {
+                                    echo 'Status desconhecido';
+                                }
+                                ?>
+                            </td>
                             <td>
                                 <?php if ($_SESSION['nivel_hierarquia'] == 'administrador') : ?>
                                         <a href="gerenciarSolicitante.php?id_solicitante=<?php echo $usuario['id_solicitante']; ?>&responsavel=<?php echo $usuario['responsavel']; ?>">Excluir</a>

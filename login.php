@@ -19,12 +19,14 @@ if(isset($_POST['acessar_solicitante'])){
     <link rel="stylesheet" href="style/login.css">
 </head>
 <body id = "principal">
+    <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="invisible-img" >
     <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
     <div class="logo">
         <a href="index.php">
             <img src="style/papoLogo2.png" alt="imagem que representa o logo do PPR">
         </a>
     </div>
+    
     <div id="login">
         <div class="pclogo">
             <img  src="img/PC logo.png" alt="">

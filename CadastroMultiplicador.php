@@ -14,15 +14,28 @@ inserirMultiplicador($connect);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Cadastro</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/adm.css">
 
 </head>
 <body>
-    <header>
-        <h1>Papo de Responsa</h1>
-    </header>
+        <header>
+            <nav class="nav-left">
+            
+            <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
+            </nav>
+            <nav class="nav-center">
+            <h1>
+                    
+                </h1>
+            </nav>
+            
+            <nav class="nav-right">
+            <a href="index.php">  <img src="style/papoLogo2.png" alt="Logo Papo de Responsa" class="logo"></a>
+            </nav>
+        </header>
     
     <main>
-        
+
                   <!-- Formulário para Cadastrar novo Multiplicador -->
         <form id="signup-form" action="" method="post">
             <h2>Cadastro do Multiplicador</h2>

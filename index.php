@@ -33,6 +33,7 @@
         </nav>
     </header>
     <main>
+        <div class="container">
         <section class="main-left">
             <div class="info-box" id="sobre">
                 <h2>"Papo de Responsa"</h2>
@@ -58,7 +59,18 @@
                 </ul>
             </div>
         </section>
+        <section class="main-right">
+            
+                <div class="aside_div"><br><a href="https://institutoculturalfloresta.org.br" target="_blank">
+                    <img class="" src="style/icf.jpeg" width="50%"></a>
+                </div>
 
+                <div class="aside_div"><br><a href="https://estado.rs.gov.br/secretaria-da-seguranca-publica" target="_blank">
+                    <img class="" src="style/gov.png" width="50%"></a>
+                </div>
+            
+        </section>
+        </div>
     </main>
     <footer id="contato">
         <p>Seja parte da mudança! Juntos podemos construir um mundo mais justo e solidário.</p>

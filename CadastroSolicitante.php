@@ -15,12 +15,24 @@ inserirSolicitante($connect);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Cadastro</title>
     <link rel="stylesheet" href="style.css">
-   
+   <link rel="stylesheet" href="style/adm.css">
 </head>
 <body>
-    <header>
-        <h1>Papo de Responsa</h1>
-    </header>
+        <header>
+            <nav class="nav-left">
+            
+            <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
+            </nav>
+            <nav class="nav-center">
+            <h1>
+                    
+                </h1>
+            </nav>
+            
+            <nav class="nav-right">
+            <a href="index.php">  <img src="style/papoLogo2.png" alt="Logo Papo de Responsa" class="logo"></a>
+            </nav>
+        </header>
     <main>
         <form id="signup-form" action="" method="post">
             <h2>Cadastro do Solicitante</h2>
@@ -43,8 +55,8 @@ inserirSolicitante($connect);
             <div class="form-group">
                 <label for="institution-type">A instituição é:</label>
                 <select id="institution-type" name="tipo_escola" required>
-                    <option value="public">Pública</option>
-                    <option value="private">Privada</option>
+                    <option value="publica">Pública</option>
+                    <option value="privada">Privada</option>
                 </select>
             </div>
             <div class="form-group">
@@ -68,7 +80,6 @@ inserirSolicitante($connect);
                 <input type="password" id="confirm-password" name="repete_senha" required>
             </div>
 
-            
             <button type="submit" name="cadastrar" value="Cadastrar">Cadastrar</button>
         </form>
         <a href="logout.php">Sair</a>

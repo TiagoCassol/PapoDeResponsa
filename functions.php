@@ -39,6 +39,12 @@ function login($connect)
             $usuario = mysqli_fetch_assoc($executar);
 
             if ($verifica > 0) {
+				// Verifica se a conta está ativa
+				if ($usuario['status_multiplicador'] == 'I') {
+					echo '<script>alert("Sua conta está inativa. Entre em contato com o suporte.");</script>';
+					return;
+				}
+				
                 // Inicia uma sessão (login)
                 session_start();
                 $_SESSION['email_multiplicador'] = $usuario['email_multiplicador'];
@@ -81,6 +87,11 @@ function loginSolicitante($connect)
             $usuario = mysqli_fetch_assoc($executar);
 
             if ($verifica > 0) {
+				if ($usuario['status_solicitante'] == 'I') {
+					echo '<script>alert("Sua conta está inativa. Entre em contato com o suporte.");</script>';
+					return;
+				}
+				
                 session_start();
                 $_SESSION['email_solicitante'] = $usuario['email_solicitante'];
                 $_SESSION['responsavel'] = $usuario['responsavel'];
@@ -542,12 +553,11 @@ function updateSolicitante($connect)
 		$id_solicitante = filter_input(INPUT_POST, "id_solicitante", FILTER_VALIDATE_INT);
 		$email_solicitante = filter_input(INPUT_POST, 'email_solicitante', FILTER_VALIDATE_EMAIL);
 		$responsavel = mysqli_real_escape_string($connect, $_POST['responsavel']);
-		$nome_instituicao = mysqli_real_escape_string($connect, $_POST['nome_instituicao']);
+		$nome_instituicao = mysqli_real_escape_string($connect, $_POST['Nome_Instituicao']);
 		$cnpj= mysqli_real_escape_string($connect, $_POST['cnpj']);
 		$tipo_escola= mysqli_real_escape_string($connect, $_POST['tipo_escola']);
 		$esfera = mysqli_real_escape_string($connect, $_POST['esfera']);
 		$endereco= mysqli_real_escape_string($connect, $_POST['endereco_solicitante']);
-		$nivel_hierarquia = mysqli_real_escape_string($connect, $_POST['nivel_hierarquia']);
 		$status = mysqli_real_escape_string($connect, $_POST['status_solicitante']);
 		$senha = "";
 
@@ -583,26 +593,23 @@ function updateSolicitante($connect)
 				$query = "UPDATE solicitante SET 
                             responsavel='$responsavel', 
                             email_solicitante='$email_solicitante',
-							nome_instituicao='$nome_instituicao', 
+							Nome_Instituicao='$nome_instituicao', 
 							cnpj='$cnpj', 
 							tipo_escola='$tipo_escola',
 							esfera='$esfera',
                				endereco_solicitante='$endereco',
-                            senha_solicitante='$senha', 
-                            nivel_hierarquia='$nivel_hierarquia', 
+                            senha_solicitante='$senha',  
                             status_solicitante='$status' 
                           WHERE id_solicitante='$id_solicitante'";
 			} else {
 				$query =  "UPDATE solicitante SET 
                             responsavel='$responsavel', 
                             email_solicitante='$email_solicitante', 
-							nome_instituicao='$nome_instituicao',
+							Nome_Instituicao='$nome_instituicao',
 							cnpj='$cnpj', 
 							tipo_escola= '$tipo_escola',
 							esfera='$esfera',
                				endereco_solicitante='$endereco',
-                            senha_solicitante='$senha', 
-                            nivel_hierarquia='$nivel_hierarquia', 
                             status_solicitante='$status' 
                           WHERE id_solicitante='$id_solicitante'";
 			}
@@ -610,7 +617,7 @@ function updateSolicitante($connect)
 			$executar = mysqli_query($connect, $query);
 			if ($executar) {
 			    "Usuário atualizado com sucesso!";
-                header("Location: solicitante.php");
+                header("Location: gerenciarSolicitante.php");
                 exit(); // Certifique-se de que o script pare de ser executado após o redirecionamento
 			} else {
 				echo "Erro ao atualizar usuário: " . mysqli_error($connect);
@@ -639,3 +646,66 @@ function deletarSolicitante($connect, $usuario, $id_solicitante)
 	}
 }
 
+function formatarCPF($cpf) {
+    return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $cpf);
+}
+
+function formatarCNPJ($cnpj) {
+    return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj);
+}
+
+
+function inserirSolicitacao($connect)
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['pedido']) && !empty($_POST['pedido'])) {
+            $descricao = htmlspecialchars($_POST['pedido']);
+            $id_solicitante = $_SESSION['id_solicitante'];
+            if (strlen($descricao) < 4) {
+                $erros[] = "A descrição do pedido deve conter pelo menos 4 caracteres.";
+            }
+            if (empty($erros)) {
+                $query = "INSERT INTO solicitacao (id_solicitante, descricao) VALUES (?, ?)";
+                $stmt = $connect->prepare($query);
+                $stmt->bind_param("is", $id_solicitante, $descricao);
+
+                if ($stmt->execute()) {
+                    echo "<script>
+                            alert('Pedido enviado com sucesso.');
+                          </script>";
+					$stmt->close(); 
+					header('Location: ' . $_SERVER['PHP_SELF']);
+					exit; 
+                } else {
+                    echo "Erro ao registrar o pedido: " . $stmt->error;
+                }
+	
+                $stmt->close();
+            } else {
+                foreach ($erros as $erro) {
+                    echo "<p>$erro</p>";
+                }
+            }
+
+        } else {
+            echo "Erro: Por favor, preencha o campo de pedido.";
+        }
+    }
+}
+
+function buscarSolicitacoesUsuarioLogado($connect, $id_solicitante) {
+    $solicitacoes = array();
+
+    $query = "SELECT id_solicitacao, descricao, status_solicitacao FROM solicitacao WHERE id_solicitante = ? ORDER BY data_criacao DESC";
+    $stmt = $connect->prepare($query);
+    $stmt->bind_param("i", $id_solicitante);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $solicitacoes[] = $row;
+    }
+
+    $stmt->close();
+    return $solicitacoes;
+}

@@ -1,37 +1,68 @@
 <?php 
-// Inicia a sessão
 session_start();
-
-// Verifica se a sessão está ativa. 
-// Se 'ativa' está definida na sessão, $seguranca é TRUE, caso contrário, redireciona para 'index.php'
 $seguranca = isset($_SESSION['ativa']) ? TRUE : header("location:index.php");
+
+require_once "functions.php";
+
+inserirSolicitacao($connect);
+$solicitacoes = buscarSolicitacoesUsuarioLogado($connect, $_SESSION['id_solicitante']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel admin</title>
+    <title>Painel Solicitante</title>
+    <link rel="stylesheet" href="style/solicitante.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body>  
     <?php 
-    // Se $seguranca é TRUE, exibe o conteúdo protegido
     if ($seguranca) { 
     ?>
-        <h1>Bem vindo,
-            <?php 
-            // Exibe o email do solicitante armazenado na sessão
-            echo $_SESSION['email_solicitante']; 
-            ?> ao painel do site!
-        </h1>
+        <header>
+            <nav class="nav-left">
+            
+            <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
+            </nav>
+            <nav class="nav-center">
+            <h1>Bem vindo,
+                    <?php echo $_SESSION['responsavel']; ?> ao painel do site!
+                </h1>
+            </nav>
+            
+            <nav class="nav-right">
+                <img src="style/papoLogo2.png" alt="Logo Papo de Responsa" class="logo">
+            </nav>
+        </header>
         <?php 
-        // Inclui o menu do multiplicador
-        include "layout/menuMultiplicador.php"; 
+        include "layout/menuSolicitante.php"; 
         ?>
+        
+        <h2>Caso queira solicitar uma palestra, digite abaixo.</h2>
+        <div class="form-container">
+            <form action="" method="POST">
+                <input type="text" name="pedido" placeholder="Descreva o tema da palestra que voce deseja solicitar" required>
+                <button type="submit" name="cadastrar" value="Enviar">Solicitar</button>
+            </form>
+        </div>
+        <div class="solicitacoes-container">
+            <h2>Suas Solicitações:</h2>
+            <a>Status:"A" - Aceita  "E" - Em aberto e "C" - Visita já Realizada</a>
+            <?php 
+            if (empty($solicitacoes)) {
+                echo "<p>Você ainda não fez nenhuma solicitação.</p>";
+            } else {
+                foreach ($solicitacoes as $solicitacao) {
+                    echo "<p>Descrição: {$solicitacao['descricao']}</p>";
+                    echo "<p>Status: {$solicitacao['status_solicitacao']}</p>";
+                    echo "<hr>";
+                }
+            }
+            ?>
+        </div>
     <?php 
     }  
     ?>
-    <!-- Link para sair (logout) -->
-    <a href="logout.php">Sair</a>
 </body>
 </html>

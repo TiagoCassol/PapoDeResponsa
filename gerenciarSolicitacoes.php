@@ -22,8 +22,8 @@ require_once "functions.php";
             <img src="style/policiaCivil2.png" alt="Logo Papo de Responsa" class="">
             </nav>
             <nav class="nav-center">
-            <h1>Bem vindo,
-                    <?php echo $_SESSION['nome_multiplicador']; ?> ao painel do site!
+            <h1>
+                    <?php echo $_SESSION['nome_multiplicador']; ?>: Solicitações
                 </h1>
             </nav>
             
@@ -47,7 +47,8 @@ require_once "functions.php";
                 <?php echo $_GET['id_solicitacao'];?></h2>
                 <form action="" method="post">
                     <input type="hidden" name="id_solicitacao" value="<?php echo $_GET['id_solicitacao']?>">
-                    <input type="submit" name="deletarSolicitacao" value="Deletar">
+                    
+                    <button type="submit" name="deletarSolicitacao" value="Deletar">Deletar</button>
                 </form>
             <?php } ?>
             <?php 
@@ -79,12 +80,26 @@ require_once "functions.php";
                 <tbody>
                     <?php foreach ($usuarios as $usuario) : ?>
                         <tr>
-                            <td  data-tooltip="<?php echo $usuario['id_solicitacao'];?>"></td>
+                            <td ><?php echo $usuario['id_solicitacao'];?></td>
                             <td><?php echo $usuario['nome_instituicao']; ?></td>
                             <td><?php echo $usuario['nome_multiplicador']; ?></td>
                             <td><?php echo date('d/m/y', strtotime($usuario['data_criacao'])); ?></td>
-                            <td><?php echo $usuario['descricao']; ?></td>
-                            <td><?php echo $usuario['status_solicitacao']; ?></td>
+                            <td data-tooltip="<?php echo $usuario['descricao']; ?>"><?php echo $usuario['descricao']; ?></td>
+                            <td>
+                                <?php 
+                                if ($usuario['status_solicitacao'] == 'A') {
+                                    echo 'Ativo';
+                                } elseif ($usuario['status_solicitacao'] == 'I') {
+                                    echo 'Inativo';
+                                } elseif ($usuario['status_solicitacao'] == 'E') {
+                                    echo 'Em aberto';
+                                } elseif ($usuario['status_solicitacao'] == 'C') {
+                                    echo 'Concluido';
+                                } else {
+                                    echo 'Status desconhecido';
+                                }
+                                ?>
+                            </td>
                             <td>
                                 <?php if ($_SESSION['nivel_hierarquia'] == 'administrador') : ?>
                                         <a href="gerenciarSolicitacoes.php?id_solicitacao=<?php echo $usuario['id_solicitacao']; ?>&descricao=<?php echo $usuario['descricao']; ?>">Excluir</a>

@@ -45,12 +45,11 @@ require_once "functions.php";
             updateSolicitante($connect);
             ?>
             <!-- Título para indicar que está editando um usuário específico -->
-            <h2>Editando o Solicitante <?php echo $_GET['Nome_Instituicao']; ?> </h2>
+            <h2>Editando o Solicitante <?php echo $usuario['Nome_Instituicao']; ?> </h2>
         <?php } ?>
 
         <!-- Formulário para editar um usuário existente ou adicionar um novo usuário -->
-        <form id="signup-form" action="" method="post">
-         
+        <form id="signup-form" action="" method="post">    
                     <input value="<?php echo $usuario['id_solicitante']; ?>" type="hidden" name="id_solicitante">
                 <div class="form-group">
                 <label for="name">Nome_Instituicao:</label>
@@ -66,39 +65,50 @@ require_once "functions.php";
                 </div>
                 <div class="form-group">
                     <label for="cpf_multiplicador">CNPJ:</label>
-                    <input value="<?php echo $usuario['CNPJ']; ?>" type="text" name="CNPJ" placeholder="CNPJ">
+                    <input value="<?php echo $usuario['cnpj']; ?>" type="text" name="cnpj" placeholder="CNPJ">
                 </div>
                 <div class="form-group">
-                    <label for="endereco_multiplicador">Endereco:</label>
-                    <input value="<?php echo $usuario['endereco_multiplicador']; ?>" type="text" name="endereco_multiplicador" placeholder="Endereço">
+                    <label for="endereco_solicitante">Endereço:</label>
+                    <input value="<?php echo $usuario['endereco_solicitante']; ?>" type="text" name="endereco_solicitante" placeholder="Endereço">
                 </div>
+
                 <div class="form-group">
-                    <label for="senha_multiplicador">Senha:</label>
-                    <input type="password" name="senha_multiplicador" placeholder="senha">
+                            <!-- Campo para status -->
+                    <label for="tipo_escola">Tipo de Escola:</label>
+                    <select id="tipo_escola" name="tipo_escola">
+                        <option value="publica" <?php echo ($usuario['tipo_escola'] == 'publica') ? 'selected' : ''; ?>>Publica</option>
+                        <option value="privada" <?php echo ($usuario['tipo_escola'] == 'privada') ? 'selected' : ''; ?>>Privada</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                            <!-- Campo para status -->
+                    <label for="esfera">Esfera:</label>
+                    <select id="esfera" name="esfera">
+                        <option value="municipal" <?php echo ($usuario['esfera'] == 'municipal') ? 'selected' : ''; ?>>Municipal</option>
+                        <option value="federal" <?php echo ($usuario['esfera'] == 'federal') ? 'selected' : ''; ?>>Federal</option>
+                        <option value="estadual" <?php echo ($usuario['esfera'] == 'estadual') ? 'selected' : ''; ?>>Estadual</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="senha_solicitante">Senha:</label>
+                    <input type="password" name="senha_solicitante" placeholder="senha">
                 </div>
                 <div class="form-group">
                     <label for="repete_senha">Repita a Senha:</label>
                     <input type="password" name="repetesenha" placeholder="Confirme sua senha">
                 </div>
                 <div class="form-group">
-                    <label for="nivel_hierarquia">Nível de Hierarquia:</label>
-                    <select id="nivel_hierarquia" name="nivel_hierarquia">
-                        <option value="padrao" <?php echo ($usuario['nivel_hierarquia'] == 'padrao') ? 'selected' : ''; ?>>Padrão</option>
-                        <option value="administrador" <?php echo ($usuario['nivel_hierarquia'] == 'administrador') ? 'selected' : ''; ?>>Administrador</option>
-                        <option value="trainee" <?php echo ($usuario['nivel_hierarquia'] == 'trainee') ? 'selected' : ''; ?>>Trainee</option>
-                    </select>
-                </div>
-                <div class="form-group">
                             <!-- Campo para status -->
-                    <label for="status_multiplicador">Status do Multiplicador:</label>
-                    <select id="status_multiplicador" name="status_multiplicador">
-                        <option value="A" <?php echo ($usuario['status_multiplicador'] == 'A') ? 'selected' : ''; ?>>Ativo</option>
-                        <option value="I" <?php echo ($usuario['status_multiplicador'] == 'I') ? 'selected' : ''; ?>>Inativo</option>
+                    <label for="status_solicitante">Status do Solicitante:</label>
+                    <select id="status_solicitante" name="status_solicitante">
+                        <option value="A" <?php echo ($usuario['status_solicitante'] == 'A') ? 'selected' : ''; ?>>Ativo</option>
+                        <option value="I" <?php echo ($usuario['status_solicitante'] == 'I') ? 'selected' : ''; ?>>Inativo</option>
                     </select>
                 </div>
                     <input type="submit" name="atualizar" value="Atualizar">
-
- 
         </form>
 
         <a href="sair.php">Sair</a>

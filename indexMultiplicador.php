@@ -63,7 +63,10 @@ $solicitacoes_aceitas = buscarSolicitacoesAceitas($connect, $_SESSION['id_multip
             foreach ($solicitacoes_disponiveis as $solicitacao) : ?>
                 <li>
                     <?php $distancia = getDistance($addressFrom = $solicitacao['endereco_solicitante'], $addressTo = $endereco_multiplicador, $unit = "k"); ;
-                    echo $solicitacao['descricao']; ?> - Solicitante: <?php echo $solicitacao['endereco_solicitante']; ?> - Distância: <?php echo $distancia;?>
+                    echo $solicitacao['descricao']; ?> - Endereço: <?php 
+                    echo $solicitacao['endereco_solicitante']; ?> - Distância: <?php echo $distancia; 
+                    echo " Responsável: " . $solicitacao['responsavel'] . "<br>";
+                    echo "Email: " . $solicitacao['email_solicitante'] . "<br>"; ?>
                     <a href="?aceitar=<?php echo $solicitacao['id_solicitacao']; ?>">Aceitar</a>
                 </li>
             <?php endforeach; ?>
@@ -73,7 +76,10 @@ $solicitacoes_aceitas = buscarSolicitacoesAceitas($connect, $_SESSION['id_multip
         <ul>
             <?php foreach ($solicitacoes_aceitas as $solicitacao) : ?>
                 <li>
-                    <?php echo $solicitacao['descricao']; ?> - Endereço: <?php echo $solicitacao['endereco_solicitante']; ?>
+                    <?php echo $solicitacao['descricao']; ?> - Endereço: <?php 
+                    echo $solicitacao['endereco_solicitante']; 
+                    echo " Responsável: " . $solicitacao['responsavel'] . "<br>"; 
+                    echo "Email: " . $solicitacao['email_solicitante'] . "<br>"; ?>
                     <a href="?desistir=<?php echo $solicitacao['id_solicitacao']; ?>">Desistir</a>
                     <a href="?concluir=<?php echo $solicitacao['id_solicitacao']; ?>">Visita realizada</a>
                 </li>

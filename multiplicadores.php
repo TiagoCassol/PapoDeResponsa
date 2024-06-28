@@ -38,7 +38,7 @@ require_once "functions.php";
         <?php
          // Define a tabela e a ordem para a consulta
             $tabela = "usuarios";
-            $order = "nome_multiplicador";
+            $order = "";
             // Busca os usuários no banco de dados
             $usuarios = buscar($connect, $tabela, $where = 1, $order);
             // Insere um novo multiplicador
@@ -49,7 +49,7 @@ require_once "functions.php";
                 <?php echo $_GET['nome_multiplicador'];?></h2>
                 <form action="" method="post">
                     <input type="hidden" name="id_multiplicador" value="<?php echo $_GET['id_multiplicador']?>">
-                    <input type="submit" name="deletar" value="Deletar">
+                    <button type="submit" name="deletar" value="Deletar">Deletar</button>
                 </form>
             <?php } ?>
             <?php 
@@ -87,9 +87,22 @@ require_once "functions.php";
                             <td data-tooltip="<?php echo $usuario['nome_multiplicador']; ?>"><?php echo $usuario['nome_multiplicador']; ?></td>
                             <td><?php echo $usuario['email_multiplicador']; ?></td>
                             <td><?php echo $usuario['matricula']; ?></td>
-                            <td><?php echo $usuario['cpf_multiplicador']; ?></td>
-                            <td><?php echo $usuario['endereco_multiplicador']; ?></td>
-                            <td><?php echo $usuario['status_multiplicador']; ?></td>
+                            <td><?php echo formatarCPF($usuario['cpf_multiplicador']); ?></td>
+                            <td data-tooltip="<?php echo $usuario['endereco_multiplicador']; ?>"><?php echo $usuario['endereco_multiplicador']; ?></td>
+                            <td>
+                                <?php 
+                                if ($usuario['status_multiplicador'] == 'A') {
+                                    echo 'Ativo';
+                                } elseif ($usuario['status_multiplicador'] == 'I') {
+                                    echo 'Inativo';
+                                } elseif ($usuario['status_multiplicador'] == 'E') {
+                                    echo 'Em aberto';
+                                } else {
+                                    echo 'Status desconhecido';
+                                }
+                                ?>
+                            </td>
+
                             <td><?php echo $usuario['nivel_hierarquia']; ?></td>
                             <td>
                                 <?php if ($_SESSION['nivel_hierarquia'] == 'administrador') : ?>
