@@ -78,9 +78,9 @@
     </footer>
 
     <!-- Ícone -->
-    <!-- <div class="icon-container">
-        <img src="/imgs/icone.png" alt="Ícone" class="icon">
-    </div> -->
+    <div class="icon-container">
+        <img src="imgs/whats.png" alt="Ícone" class="icon">
+    </div>
 
     <!-- <script src="script.js"></script> -->
 </body>
