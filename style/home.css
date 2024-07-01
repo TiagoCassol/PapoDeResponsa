@@ -183,6 +183,6 @@ footer {
 
 .info-box:hover {
     background-color: #87898a; /* Cor de fundo ao passar o mouse */
-    color: #000000; /* Cor do texto ao passar o mouse */
+   
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ao passar o mouse */
 }

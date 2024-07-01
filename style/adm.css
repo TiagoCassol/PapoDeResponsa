@@ -175,3 +175,8 @@ ul li a:hover {
 .solicitacoes-aceitas li {
     background-color: #e6ffe6;
 }
+
+.solicitacao-actions {
+    display: flex;
+    gap: 10px; 
+}

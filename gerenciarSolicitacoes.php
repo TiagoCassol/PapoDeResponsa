@@ -88,7 +88,7 @@ require_once "functions.php";
                             <td>
                                 <?php 
                                 if ($usuario['status_solicitacao'] == 'A') {
-                                    echo 'Ativo';
+                                    echo 'Aceita';
                                 } elseif ($usuario['status_solicitacao'] == 'I') {
                                     echo 'Inativo';
                                 } elseif ($usuario['status_solicitacao'] == 'E') {

@@ -48,14 +48,19 @@ $solicitacoes = buscarSolicitacoesUsuarioLogado($connect, $_SESSION['id_solicita
         </div>
         <div class="solicitacoes-container">
             <h2>Suas Solicitações:</h2>
-            <a>Status:"A" - Aceita  "E" - Em aberto e "C" - Visita já Realizada</a>
             <?php 
             if (empty($solicitacoes)) {
                 echo "<p>Você ainda não fez nenhuma solicitação.</p>";
             } else {
                 foreach ($solicitacoes as $solicitacao) {
                     echo "<p>Descrição: {$solicitacao['descricao']}</p>";
-                    echo "<p>Status: {$solicitacao['status_solicitacao']}</p>";
+                    echo "<p>Status: " . traduzirStatus($solicitacao['status_solicitacao']) . "</p>";
+                    if ($solicitacao['status_solicitacao'] == 'E') {
+                        echo "<form action='' method='POST' class='transparent-form'>
+                                <input type='hidden' name='id_solicitacao' value='{$solicitacao['id_solicitacao']}'>
+                                <button id='cancelar-btn-{$solicitacao['id_solicitacao']}' type='submit' name='cancelar_solicitacao' class='cancelar-btn'>Cancelar Solicitação</button>
+                              </form>";
+                    }
                     echo "<hr>";
                 }
             }
@@ -64,5 +69,26 @@ $solicitacoes = buscarSolicitacoesUsuarioLogado($connect, $_SESSION['id_solicita
     <?php 
     }  
     ?>
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancelar_solicitacao'])) {
+        $id_solicitacao = $_POST['id_solicitacao'];
+        $query = "DELETE FROM solicitacao WHERE id_solicitacao = ?";
+        $stmt = $connect->prepare($query);
+        $stmt->bind_param("i", $id_solicitacao);
+
+        if ($stmt->execute()) {
+            echo "Solicitação {$id_solicitacao} cancelada com sucesso.";
+            $stmt->close();
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+        } else {
+            echo "Erro ao cancelar a solicitação: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
+
+    ?>
+
 </body>
 </html>

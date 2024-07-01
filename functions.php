@@ -709,3 +709,17 @@ function buscarSolicitacoesUsuarioLogado($connect, $id_solicitante) {
     $stmt->close();
     return $solicitacoes;
 }
+
+function traduzirStatus($codigo) {
+	switch ($codigo) {
+		case 'A':
+			return 'Aceita';
+		case 'E':
+			return 'Em aberto';
+		case 'C':
+			return 'Visita concluída';
+		default:
+			return 'Desconhecido';
+	}
+}
+?>

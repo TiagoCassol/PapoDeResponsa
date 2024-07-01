@@ -58,6 +58,8 @@ header {
     flex: 2;
 }
 
+
+
 /* Estilo para o container das solicitações */
 .solicitacoes-container {
     margin: 20px;
@@ -92,4 +94,29 @@ header {
     border: none;
     border-top: 1px solid #ddd;
     margin: 10px 0;
+}
+
+.solicitacoes-container button.cancelar-btn {
+    width: 10vw;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: background-color 0.3s ease;
+}
+.solicitacoes-container button[id^="cancelar-btn-"]:hover {
+    background-color: #d32f2f;
+}
+
+.transparent-form {
+    background-color: transparent;
+    border: none;
+    padding: 0;
 }

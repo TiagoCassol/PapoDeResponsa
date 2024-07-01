@@ -54,7 +54,7 @@ foreach ($solicitacoes_disponiveis as $solicitacao) {
     <style type="text/css">
         #map {
             height: 400px;
-            width: 400px;
+            width: 100vw;
         }
     </style>
 </head>
@@ -94,15 +94,17 @@ foreach ($solicitacoes_disponiveis as $solicitacao) {
         </ul>
 
     <h2>Solicitações Aceitas por Você</h2>
-    <ul class="solicitacoes-aceitas">
+        <ul class="solicitacoes-aceitas">
             <?php foreach ($solicitacoes_aceitas as $solicitacao) : ?>
                 <li>
                     <?php echo $solicitacao['descricao']; ?> - Endereço: <?php 
                     echo $solicitacao['endereco_solicitante']; 
                     echo " Responsável: " . $solicitacao['responsavel'] . "<br>"; 
                     echo "Email: " . $solicitacao['email_solicitante'] . "<br>"; ?>
-                    <a href="?desistir=<?php echo $solicitacao['id_solicitacao']; ?>">Desistir</a>
-                    <a href="?concluir=<?php echo    $solicitacao['id_solicitacao']; ?>">Visita realizada</a>
+                    <div class="solicitacao-actions">
+                        <a href="?desistir=<?php echo $solicitacao['id_solicitacao']; ?>">Desistir</a>
+                        <a href="?concluir=<?php echo    $solicitacao['id_solicitacao']; ?>">Visita realizada</a>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>
