@@ -1,9 +1,9 @@
 <?php
-$server = "monorail.proxy.rlwy.net";
+$server = "localhost";
 $userDb = "root";
-$passDb = "ZshcFSCqLRLagZEWrMkPzpshPNBIawAn";
-$nameDb = "railway";
-$port = 37268;
+$passDb = "12345";
+$nameDb = "papo_de_responsa";
+$port = 3306;
 
 // Conexão com o Banco de Dados
 $connect = mysqli_connect($server, $userDb, $passDb, $nameDb, $port);

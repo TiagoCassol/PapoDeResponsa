@@ -80,7 +80,7 @@ require_once "functions.php";
                             <td><?php echo $usuario['id_solicitante']; ?></td>
                             <td data-tooltip="<?php echo $usuario['responsavel']; ?>"><?php echo $usuario['responsavel']; ?></td>
                             <td><?php echo $usuario['email_solicitante']; ?></td>
-                            <td data-tooltip="<?php echo $usuario['Nome_Instituicao']; ?>"><?php echo $usuario['Nome_Instituicao']; ?></td>
+                            <td data-tooltip="<?php echo $usuario['nome_instituicao']; ?>"><?php echo $usuario['nome_instituicao']; ?></td>
                             <td><?php echo formatarCNPJ($usuario['cnpj']); ?></td>
                             <td><?php echo $usuario['tipo_escola']; ?></td>
                             <td><?php echo $usuario['esfera']; ?></td>

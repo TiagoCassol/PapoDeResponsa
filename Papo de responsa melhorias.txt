@@ -1,0 +1,11 @@
+Papo de responsa melhorias:
+*Refatorar(organizar os arquivos)
+*Otimizar as consultas
+*Melhor responsividade
+*Função esqueceu senha
+*Melhorar o mapa da api
+*Adicionar verificações para evitar erros(ex: cpf válido)
+*Adicionar uma função para exportar a tabela para o excel
+*Criptografia e melhora da segurança no geral
+*Poder deixar uma review após conclusão do solicitação
+
